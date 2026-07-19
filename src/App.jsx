@@ -22,31 +22,7 @@ const BANDUNG_LOCS = [
 ];
 
 const SEED_POSTS = [
-  {
-    id:"p1", userId:"u2", type:"lost",
-    title:"Helm SMK Putih", description:"Helm warna putih merek SMK, ada stiker bendera kecil di sisi kiri.",
-    category:"Kendaraan", photo:null,
-    location:BANDUNG_LOCS[0], lastSeen:"2026-06-07T07:20", status:"active",
-    createdAt:"2026-06-07T08:00", comments:[], ratings:[],
-  },
-  {
-    id:"p2", userId:"u1", type:"found",
-    title:"Dompet Kulit Coklat", description:"Dompet kulit coklat, berisi KTP dan beberapa kartu ATM. Inisial SR di pojok.",
-    category:"Dompet", photo:null,
-    location:BANDUNG_LOCS[1], lastSeen:"2026-06-06T14:30", status:"active",
-    createdAt:"2026-06-06T15:00", comments:[
-      {id:"c1",userId:"u2",text:"Saya lihat serupa di sekitar Braga!",time:"2026-06-06T16:00"}
-    ], ratings:[],
-  },
-  {
-    id:"p3", userId:"u2", type:"lost",
-    title:"Tas Ransel Laptop Hitam", description:"Tas ransel hitam merek Eiger, berisi laptop ASUS & charger. Ada stiker merah.",
-    category:"Tas", photo:null,
-    location:BANDUNG_LOCS[5], lastSeen:"2026-06-04T18:00", status:"found",
-    createdAt:"2026-06-04T20:00", comments:[], ratings:[
-      {userId:"u1",score:5,comment:"Barang sudah kembali, terima kasih!"}
-    ],
-  },
+ 
 ];
 
 const SEED_PUBLIC = [
@@ -237,13 +213,14 @@ h1,h2,h3{font-family:'Nunito',sans-serif}
 .disc-inp input{flex:1;padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-family:inherit;font-size:13px;outline:none}
 .disc-inp input:focus{border-color:var(--teal)}
 
-/* MAP FAKE */
-.map-fake{background:linear-gradient(145deg,#C9E6F0,#A8D5E8);border-radius:var(--radius);overflow:hidden;position:relative;height:200px;display:flex;align-items:center;justify-content:center}
-.map-grid-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.4) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.4) 1px,transparent 1px);background-size:36px 36px}
-.map-roads{position:absolute;inset:0}
-.map-pin-anim{font-size:1.8rem;position:relative;z-index:2;filter:drop-shadow(0 4px 6px rgba(0,0,0,.2));animation:pinBounce .8s ease-in-out infinite alternate}
-@keyframes pinBounce{from{transform:translateY(0)}to{transform:translateY(-6px)}}
-.map-addr-pill{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:#fff;padding:5px 14px;border-radius:20px;font-size:11px;font-weight:700;color:var(--navy);white-space:nowrap;z-index:2;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+/* MAP */
+.map-container{height:240px;border-radius:var(--radius);overflow:hidden;position:relative;border:1px solid var(--border)}
+.map-search-wrap{position:absolute;top:10px;left:10px;right:10px;z-index:1000;background:#fff;border-radius:var(--radius-sm);box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.map-search-input{width:100%;padding:10px 14px;border:none;border-radius:var(--radius-sm);font-family:inherit;font-size:13px;outline:none}
+.map-search-results{position:absolute;top:44px;left:10px;right:10px;background:#fff;border-radius:var(--radius-sm);max-height:200px;overflow-y:auto;box-shadow:0 2px 8px rgba(0,0,0,.15);z-index:999}
+.map-result-item{padding:10px 14px;border-bottom:1px solid var(--border);cursor:pointer;font-size:12px;color:var(--text);transition:.2s}
+.map-result-item:hover{background:var(--surface2)}
+.map-result-item:last-child{border-bottom:none}
 .map-loc-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
 .loc-btn{border:1px solid var(--border);background:var(--surface);border-radius:8px;font-family:inherit;font-size:11px;font-weight:700;color:var(--text);padding:7px 10px;cursor:pointer;text-align:left;transition:.2s;display:flex;align-items:center;gap:5px}
 .loc-btn:hover{border-color:var(--teal);background:#E6FAF7}
@@ -278,7 +255,7 @@ h1,h2,h3{font-family:'Nunito',sans-serif}
 /* AUTH */
 .auth-page{display:grid;grid-template-columns:1fr 1fr;min-height:100vh}
 .auth-left{background:var(--navy);padding:3rem;display:flex;flex-direction:column;justify-content:center}
-.auth-left h1{font-family:'Nunito',sans-serif;font-size:3rem;font-weight:900;color:#fff;line-height:1.1;margin-bottom:1rem}
+.auth-left h1{font-family:'Nunito',sans-serif;font-size:2.8rem;font-weight:900;color:#fff;line-height:1.25;margin-bottom:1.5rem}
 .auth-left h1 span{color:var(--teal)}
 .auth-left p{color:rgba(255,255,255,.5);font-size:14px;line-height:1.7}
 .auth-right{background:#fff;padding:3rem;display:flex;flex-direction:column;justify-content:center}
@@ -349,6 +326,239 @@ h1,h2,h3{font-family:'Nunito',sans-serif}
 
 /* FOUND ITEMS PAGE */
 .found-badge{display:inline-flex;align-items:center;gap:6px;background:#D1FAE5;color:#065F46;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;margin-bottom:16px}
+
+/* ━━ MOBILE RESPONSIVE ━━ */
+@media (max-width: 768px) {
+  /* NAV */
+  .nav{padding:0 1rem;height:56px}
+  .nav-logo{font-size:1rem}
+  .nav-right{gap:8px}
+  .nav-link{font-size:12px;padding:4px 8px}
+  
+  /* LAYOUT */
+  .wrap{padding:1rem 1rem}
+  .two-col{grid-template-columns:1fr;gap:1rem}
+  .page{min-height:auto}
+  
+  /* HERO */
+  .hero{padding:2rem 0 1.5rem}
+  .hero h1{font-size:2rem}
+  .hero p{font-size:13px;max-width:100%}
+  .hero-btns{gap:8px}
+  .btn-hero-lost,.btn-hero-found{font-size:13px;padding:12px 18px}
+  
+  /* STATS */
+  .stats-card{gap:1rem;padding:1rem}
+  .stat .num{font-size:1.4rem}
+  
+  /* SECTION */
+  .section-title{font-size:1.1rem}
+  .section-sub{font-size:11px}
+  
+  /* POSTS GRID */
+  .posts-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+  .pc-img,.pc-img-ph{height:120px}
+  .pc-body{padding:8px 10px}
+  .pc-title{font-size:.9rem}
+  .pc-desc{font-size:11px}
+  .pc-meta{font-size:10px}
+  
+  /* SEARCH & FILTER */
+  .search-bar{flex-direction:column;gap:8px}
+  .filter-sel{width:100%}
+  .cat-pills{gap:6px}
+  .cat-pill{font-size:11px;padding:4px 12px}
+  
+  /* FILTER TABS */
+  .filter-tabs{gap:4px;padding:3px}
+  .ftab{font-size:12px;padding:5px 12px}
+  
+  /* BUTTONS */
+  .btn{padding:8px 16px;font-size:12px}
+  .btn-sm{padding:6px 10px;font-size:11px}
+  
+  /* DETAIL PAGE */
+  .detail-wrap{grid-template-columns:1fr;gap:1rem}
+  .detail-img{max-height:240px}
+  .detail-title{font-size:1.3rem}
+  .info-grid{grid-template-columns:1fr}
+  
+  /* FORM */
+  .form-page-head{padding:1rem 1.5rem}
+  .form-page-title{font-size:1.1rem}
+  .form-body{padding:1.5rem 1rem}
+  .form-2col{grid-template-columns:1fr;gap:1rem}
+  .form-row{grid-template-columns:1fr}
+  .fi{padding:10px 12px;font-size:13px}
+  .type-switch{gap:6px}
+  .type-btn{font-size:12px;padding:10px}
+  
+  /* AUTH PAGE */
+  .auth-page{grid-template-columns:1fr;min-height:auto}
+  .auth-left{padding:2rem 1.5rem;padding-bottom:0}
+  .auth-right{padding:2rem 1.5rem}
+  .auth-left h1{font-size:1.8rem;margin-bottom:1rem}
+  .auth-left p{font-size:13px}
+  .auth-heading{font-size:1.3rem}
+  .auth-logo{margin-bottom:1.5rem}
+  
+  /* CHAT LAYOUT */
+  .chat-layout{grid-template-columns:1fr;gap:12px;height:auto}
+  .chat-sidebar-panel{max-height:200px}
+  
+  /* MAP */
+  .map-container{height:150px}
+  .map-loc-grid{grid-template-columns:1fr}
+  
+  /* DISCUSSION */
+  .disc-msgs{min-height:150px;max-height:220px}
+  .disc-bubble{max-width:85%}
+  
+  /* MODAL */
+  .ov{padding:.5rem}
+  .modal{border-radius:20px}
+  .modal-head{padding:1rem 1.25rem}
+  .modal-title{font-size:.95rem}
+  .modal-body{padding:1.25rem}
+  
+  /* NOTIFICATION */
+  .notif{bottom:16px;right:16px;font-size:13px;padding:10px 16px}
+}
+
+@media (max-width: 480px) {
+  /* NAV */
+  .nav{padding:0 0.75rem}
+  .nav-logo{font-size:.9rem;gap:6px}
+  .logo-icon{width:28px;height:28px;font-size:12px}
+  
+  /* LAYOUT */
+  .wrap{padding:0.75rem}
+  
+  /* HERO */
+  .hero{padding:1.5rem 0 1rem}
+  .hero h1{font-size:1.5rem;margin-bottom:.3rem}
+  .hero p{font-size:12px;margin-bottom:1.5rem}
+  .hero-btns{gap:6px}
+  .btn-hero-lost,.btn-hero-found{font-size:12px;padding:10px 16px}
+  .btn-icon{width:32px;height:32px;font-size:14px}
+  
+  /* STATS */
+  .stats-card{flex-direction:column;gap:.8rem;padding:.8rem;margin-bottom:1.5rem}
+  .stat .num{font-size:1.2rem}
+  .stat .lbl{font-size:10px}
+  
+  /* SECTION */
+  .section-head{flex-direction:column;gap:.5rem}
+  .section-title{font-size:1rem}
+  .section-sub{font-size:10px;margin-top:0}
+  
+  /* POSTS GRID */
+  .posts-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .pc-img,.pc-img-ph{height:100px;font-size:2rem}
+  .pc-body{padding:6px 8px}
+  .pc-title{font-size:.8rem;margin-bottom:2px}
+  .pc-desc{font-size:10px;margin-bottom:6px}
+  .pc-meta{font-size:9px}
+  .pc-badge{font-size:9px;padding:2px 8px;margin:8px 8px 0}
+  
+  /* SEARCH & FILTER */
+  .search-bar{gap:6px}
+  .filter-sel{padding:9px 12px;font-size:12px}
+  .cat-pills{gap:4px;padding-bottom:2px;margin-bottom:1rem}
+  .cat-pill{font-size:10px;padding:3px 10px}
+  
+  /* FILTER TABS */
+  .filter-tabs{gap:2px;padding:2px}
+  .ftab{font-size:11px;padding:4px 10px}
+  
+  /* BUTTONS */
+  .btn{padding:8px 14px;font-size:11px;gap:5px}
+  .btn-sm{padding:5px 10px;font-size:10px}
+  .btn-full{width:100%}
+  
+  /* DETAIL PAGE */
+  .detail-title{font-size:1.1rem}
+  .info-box{padding:10px 12px}
+  .info-box-label{font-size:9px;margin-bottom:2px}
+  .info-box-val{font-size:12px}
+  .spec-label{font-size:10px}
+  
+  /* FORM */
+  .form-page-head{padding:.8rem 1rem;gap:8px}
+  .form-page-title{font-size:1rem}
+  .form-body{padding:1rem}
+  .fg{margin-bottom:.8rem}
+  .fg label{font-size:10px;margin-bottom:4px}
+  .fi{padding:8px 12px;font-size:12px;border-radius:8px}
+  .fi-err{font-size:10px}
+  .fi-ta{min-height:70px}
+  .type-switch{gap:4px;margin-bottom:1rem}
+  .type-btn{font-size:11px;padding:8px}
+  .photo-drop{padding:1rem;border-radius:10px}
+  .photo-preview{max-height:150px;border-radius:8px}
+  
+  /* AUTH PAGE */
+  .auth-left{padding:2rem 1rem;padding-bottom:0}
+  .auth-right{padding:1.5rem}
+  .auth-left h1{font-size:1.4rem;line-height:1.3}
+  .auth-left p{font-size:12px}
+  .auth-logo{margin-bottom:1.25rem}
+  .auth-logo .icon{width:32px;height:32px;font-size:14px}
+  .auth-logo span{font-size:1rem}
+  .auth-heading{font-size:1.1rem;margin-bottom:2px}
+  .auth-sub{font-size:12px;margin-bottom:1rem}
+  .auth-tabs-bar{margin-bottom:1.5rem}
+  .atab{font-size:13px;padding:10px}
+  .err-box{padding:8px 12px;font-size:12px}
+  .demo-hint{margin-top:.8rem;padding:8px 12px;font-size:11px}
+  
+  /* CHAT */
+  .chat-layout{gap:8px}
+  .chat-sidebar-panel{max-height:180px}
+  .cpanel-head{padding:.8rem 1rem;font-size:.85rem}
+  .user-item{padding:8px 1rem;gap:8px}
+  .u-av{width:32px;height:32px;font-size:12px}
+  .u-name{font-size:12px}
+  .u-last{font-size:10px}
+  .chat-msgs{padding:1rem;gap:8px}
+  .chat-inp{padding:.8rem;gap:6px}
+  .chat-inp input{padding:8px 12px;font-size:12px}
+  
+  /* MAP */
+  .map-container{height:120px;border-radius:10px}
+  .map-pin-anim{font-size:1.4rem}
+  .map-addr-pill{padding:4px 12px;font-size:10px}
+  .map-loc-grid{gap:4px;margin-top:6px}
+  .loc-btn{padding:6px 8px;font-size:10px}
+  
+  /* DISCUSSION */
+  .disc-panel{border-radius:10px}
+  .disc-head{padding:.8rem 1rem}
+  .disc-head-title{font-size:.85rem}
+  .disc-head-sub{font-size:10px}
+  .disc-msgs{min-height:120px;max-height:180px;padding:.8rem;gap:8px}
+  .disc-msg{gap:6px}
+  .disc-bubble{padding:6px 10px;max-width:90%}
+  .disc-bubble p{font-size:12px}
+  .disc-inp{padding:.8rem}
+  .disc-inp input{padding:8px 12px;font-size:12px}
+  
+  /* MODAL */
+  .ov{padding:.3rem}
+  .modal{border-radius:16px}
+  .modal-head{padding:.8rem 1rem}
+  .modal-title{font-size:.9rem}
+  .modal-body{padding:1rem}
+  
+  /* RATING */
+  .rating-card{padding:1rem;margin-bottom:12px}
+  .rating-avg-big{font-size:2rem}
+  .stars{gap:2px}
+  .star{font-size:16px}
+  
+  /* NOTIFICATION */
+  .notif{bottom:12px;right:12px;font-size:12px;padding:8px 14px}
+}
 `;
 
 // ── COMPONENT ──────────────────────────────────────────────────────────────
@@ -381,28 +591,62 @@ export default function App() {
 
   const toast = (msg,type="ok") => { setNotif({msg,type}); setTimeout(()=>setNotif(null),3000); };
 
+  const mapDbPostToAppPost = dbPost => ({
+    ...dbPost,
+    userId: dbPost.userid || dbPost.userId,
+    lastSeen: dbPost.lastseen || dbPost.lastSeen,
+    createdAt: dbPost.createdat || dbPost.createdAt,
+    location: dbPost.location || BANDUNG_LOCS[0],
+  });
+
+  const mapAppPostToDbPost = post => {
+    const { userId, lastSeen, createdAt, ...rest } = post;
+    return {
+      ...rest,
+      userid: userId,
+      lastseen: lastSeen,
+      createdat: createdAt,
+    };
+  };
+
   useEffect(() => {
+    // restore user session from localStorage on mount
+    const savedUser = localStorage.getItem('finder_nekat_user');
+    if (savedUser) {
+      try {
+        const user = JSON.parse(savedUser);
+        setMe({...user, online: true});
+      } catch (e) {
+        console.warn('Failed to restore user session', e);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log('hasSupabase', hasSupabase);
     if (!hasSupabase) return;
     const loadData = async () => {
       const { data: usersData, error: usersError } = await supabase.from("users").select("*");
       const { data: postsData, error: postsError } = await supabase.from("posts").select("*");
+      console.log('Supabase load', { usersCount: usersData?.length, postsCount: postsData?.length, usersError, postsError });
       if (usersError) console.warn("Supabase users load error", usersError);
       if (postsError) console.warn("Supabase posts load error", postsError);
       if (usersData?.length) setUsers(usersData.map(u=>({
         ...u,
         online:!!u.online,
       })));
-      if (postsData?.length) setPosts(postsData.map(p=>({
-        ...p,
-        location:p.location||BANDUNG_LOCS[0],
-      })));
+      if (postsData?.length) setPosts(postsData.map(p => mapDbPostToAppPost(p)));
     };
     loadData();
   }, []);
 
   const syncPostToDb = async (pid, updates) => {
     if (!hasSupabase) return;
-    const { error } = await supabase.from("posts").update(updates).eq("id", pid);
+    const dbUpdates = { ...updates };
+    if (dbUpdates.userId) { dbUpdates.userid = dbUpdates.userId; delete dbUpdates.userId; }
+    if (dbUpdates.lastSeen) { dbUpdates.lastseen = dbUpdates.lastSeen; delete dbUpdates.lastSeen; }
+    if (dbUpdates.createdAt) { dbUpdates.createdat = dbUpdates.createdAt; delete dbUpdates.createdAt; }
+    const { error } = await supabase.from("posts").update(dbUpdates).eq("id", pid);
     if (error) console.warn("Supabase update post failed", error.message);
   };
 
@@ -414,7 +658,9 @@ export default function App() {
 
   const insertPostToDb = async post => {
     if (!hasSupabase) return;
-    const { error } = await supabase.from("posts").insert(post);
+    const dbPost = mapAppPostToDbPost(post);
+    const { data, error } = await supabase.from("posts").insert([dbPost]);
+    console.log('Supabase insert post result', { data, error });
     if (error) console.warn("Supabase insert post failed", error.message);
   };
 
@@ -451,7 +697,9 @@ export default function App() {
         if(!u) return setAErr("Email atau password salah.");
       }
       setUsers(us=>us.map(x=>x.id===u.id?{...x,online:true}:x));
-      setMe({...u,online:true}); setView("home");
+      setMe({...u,online:true});
+      localStorage.setItem('finder_nekat_user', JSON.stringify(u));
+      setView("home");
       toast(`Selamat datang, ${u.name}!`);
     } else {
       if(!aForm.name||!aForm.email||!aForm.password)return setAErr("Semua field wajib diisi.");
@@ -471,9 +719,13 @@ export default function App() {
           console.warn("Supabase insert user failed", error);
           return setAErr(`Gagal membuat akun: ${error?.message || "Tidak bisa menyimpan data"}`);
         }
-        setUsers(us=>[...us, insertedUser]); setMe(insertedUser); setView("home");
+        setUsers(us=>[...us, insertedUser]); setMe(insertedUser);
+        localStorage.setItem('finder_nekat_user', JSON.stringify(insertedUser));
+        setView("home");
       } else {
-        setUsers(us=>[...us,nu]); setMe(nu); setView("home");
+        setUsers(us=>[...us,nu]); setMe(nu);
+        localStorage.setItem('finder_nekat_user', JSON.stringify(nu));
+        setView("home");
       }
       toast(`Akun berhasil dibuat!`);
     }
@@ -482,7 +734,9 @@ export default function App() {
 
   const doLogout = () => {
     setUsers(us=>us.map(u=>u.id===me.id?{...u,online:false}:u));
-    setMe(null); setView("home"); toast("Berhasil logout.","info");
+    setMe(null);
+    localStorage.removeItem('finder_nekat_user');
+    setView("home"); toast("Berhasil logout.","info");
   };
 
   // ── photo upload
@@ -570,6 +824,95 @@ export default function App() {
     </div>
   );
 
+  const MapComponent = ({location, onLocationChange}) => {
+    const mapRef = useRef(null);
+    const leafletMapRef = useRef(null);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
+    const [radiusCircle, setRadiusCircle] = useState(null);
+
+    useEffect(() => {
+      if (!mapRef.current) return;
+      
+      // Initialize map
+      if (!leafletMapRef.current) {
+        leafletMapRef.current = L.map(mapRef.current).setView([location.lat, location.lng], 14);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap',
+          maxZoom: 19,
+        }).addTo(leafletMapRef.current);
+      }
+      
+      // Clear previous markers
+      leafletMapRef.current.eachLayer(layer => {
+        if (layer instanceof L.Marker || layer instanceof L.Circle) {
+          leafletMapRef.current.removeLayer(layer);
+        }
+      });
+      
+      // Add marker for current location
+      L.marker([location.lat, location.lng]).addTo(leafletMapRef.current)
+        .bindPopup(`<b>${location.label}</b>`);
+      
+      // Add 3km radius circle
+      L.circle([location.lat, location.lng], {
+        color: '#1DB8A0',
+        fillColor: '#E6FAF7',
+        fillOpacity: 0.2,
+        weight: 2,
+        radius: 3000
+      }).addTo(leafletMapRef.current)
+        .bindPopup('Jangkauan 3km (Area publik chat)');
+      
+      leafletMapRef.current.setView([location.lat, location.lng], 14);
+    }, [location]);
+
+    const handleSearch = (query) => {
+      setSearchQuery(query);
+      if (query.length < 2) {
+        setSearchResults([]);
+        return;
+      }
+      
+      // Filter locations based on search
+      const results = BANDUNG_LOCS.filter(loc => 
+        loc.label.toLowerCase().includes(query.toLowerCase())
+      );
+      setSearchResults(results);
+    };
+
+    return (
+      <div style={{position:"relative",width:"100%"}}>
+        <div ref={mapRef} className="map-container" />
+        <div className="map-search-wrap">
+          <input 
+            className="map-search-input"
+            placeholder="🔍 Cari lokasi..."
+            value={searchQuery}
+            onChange={e => handleSearch(e.target.value)}
+          />
+          {searchResults.length > 0 && (
+            <div className="map-search-results">
+              {searchResults.map(loc => (
+                <div 
+                  key={loc.label}
+                  className="map-result-item"
+                  onClick={() => {
+                    onLocationChange(loc);
+                    setSearchQuery("");
+                    setSearchResults([]);
+                  }}
+                >
+                  📍 {loc.label}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
   // ── PAGES ──────────────────────────────────────────────────────────────
 
   // AUTH
@@ -586,8 +929,8 @@ export default function App() {
               </span>
             </div>
           </div>
-          <h1 style={{marginBottom:"1rem"}}>WELCOME<br/><span>TO FINDER NEKAT</span></h1>
-          <p>Platform pelaporan barang hilang & temuan berbasis komunitas. Gratis, cepat, dan mudah digunakan semua kalangan.</p>
+          <h1 style={{marginBottom:"1.2rem"}}>Bantu Sesama<br/>Temukan Barang<br/>Yang Hilang</h1>
+          <p style={{fontSize:"14px",lineHeight:"1.8"}}>Platform pelaporan barang hilang & temuan berbasis komunitas. Gratis, cepat, dan mudah digunakan semua kalangan.</p>
           <div style={{marginTop:"2rem",fontSize:12,color:"rgba(255,255,255,.3)"}}>— Design By Students Of Nekat</div>
         </div>
         <div className="auth-right">
@@ -704,12 +1047,8 @@ export default function App() {
           <div>
             <div className="fg">
               <label>LOKASI TERAKHIR {newType==="lost"?"TERLIHAT":"DITEMUKAN"} (KLIK PADA PETA)</label>
-              <div className="map-fake" style={{height:220,marginBottom:10}}>
-                <div className="map-grid-lines"/>
-                <div className="map-pin-anim">📍</div>
-                <div className="map-addr-pill">📍 {mapLoc.label}</div>
-              </div>
-              <div className="map-loc-grid">
+              <MapComponent location={mapLoc} onLocationChange={setMapLoc} />
+              <div className="map-loc-grid" style={{marginTop:10}}>
                 {BANDUNG_LOCS.map(l=>(
                   <button key={l.label} className={`loc-btn ${mapLoc.label===l.label?"active":""}`}
                     onClick={()=>setMapLoc(l)}>📍 {l.label}</button>
@@ -780,11 +1119,7 @@ export default function App() {
               <div className="spec-label">CIRI-CIRI SPESIFIK</div>
               <p style={{fontSize:14,color:"var(--muted)",lineHeight:1.7,marginBottom:"1rem"}}>{post.description}</p>
               <div className="spec-label">PETA LOKASI</div>
-              <div className="map-fake" style={{height:160,marginBottom:"1rem"}}>
-                <div className="map-grid-lines"/>
-                <div className="map-pin-anim" style={{fontSize:"1.4rem"}}>📍</div>
-                <div className="map-addr-pill">📍 {post.location.label}</div>
-              </div>
+              <MapComponent location={post.location} onLocationChange={() => {}} />
               {post.status==="found" && post.ratings.length>0 && (
                 <div className="rating-card">
                   <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:12}}>
